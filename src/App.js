@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import PatrzDogMeme from './DogMeme';
+class OwieczkaApp extends React.Component { //nasza klasa OwieczkaApp rozszerza metody o nasze
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+constructor(){ //takie coś jak plan do budynku
+super()
+
+this.state = {
+url: "", //wyświetla obrazek
+text: "Jakiś text",
+alt: "Dog meme"
+}
+this.getDogPhoto = this.getDogPhoto.bind(this)
+}
+
+componentDidMount() {
+  this.getDogPhoto()
+}
+
+getDogPhoto(){
+ // this.setState ---> zmienia stan\
+ fetch("https://dog.ceo/api/breeds/image/random")
+ .then(odpowiedz => odpowiedz.json())
+ .then( data => this.setState({url: data.message}))
+}
+
+  render(){
+    return(<div>
+      <PatrzDogMeme klik={this.getDogPhoto} text = {this.state.text} alt={this.state.alt} url={this.state.url}/>
+    </div>)
   }
 }
 
-export default App;
+export default OwieczkaApp
